@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import MealsContainer from './MealsContainer'
 import { meals } from '../utils/Meals'
+import Shimmer from './Shimmer'
 
 
 
@@ -23,13 +24,14 @@ const Body = () => {
    useEffect(()=>{
       fetchMeals();
     },[refresh])
-
+    
   return (
     <div>
-    <button className='btn btn-primary' onClick={()=>setRefresh(!refresh)}>Refresh</button>
-      <MealsContainer meals={data} updateMeals={setData}/>
+    {data.length===0 && <Shimmer/>}
+    <MealsContainer meals={data} updateMeals={setData}/>
     </div>
   )
 }
+
 
 export default Body
