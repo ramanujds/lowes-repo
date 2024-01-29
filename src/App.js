@@ -10,6 +10,8 @@ function App() {
 
  // Greet('Hello World');
 
+ console.log("App Rednered")
+
   return (
     <div className='container'>
       <div className='row'>
