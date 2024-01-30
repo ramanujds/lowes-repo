@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { mealsUrl } from "./AppConfig";
 
 export const useFetchMeals = () => {
 
     const [meals, setMeals] = useState([]);
 
     const fetchMeals = async () => {
-       const data = await fetch("https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert")
+       const data = await fetch(mealsUrl)
          const response = await data.json();
             setMeals(response.meals);
        }
