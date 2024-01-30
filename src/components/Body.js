@@ -1,60 +1,64 @@
-import React, { useEffect, useReducer } from 'react'
+import React, { useContext, useEffect, useReducer } from 'react'
 import { useState } from 'react'
 import MealsContainer from './MealsContainer'
 import { meals } from '../utils/Meals'
 import Shimmer from './Shimmer'
+import { MealsContext } from '../utils/MealsContext'
 
 const initialState = {
-  meals:meals
+  meals: []
 }
 
-const reducer = (state,action) => {
-  switch(action.type){
+const reducer = (state, action) => {
+  switch (action.type) {
     case 'REMOVE_ITEM':
-      return {...state,meals:state.meals.filter(meal=>meal.idMeal!=action.payload)}
-      case 'RELOAD_ITEM':
-      return {...state,meals:meals}
+      return { ...state, meals: state.meals.filter(meal => meal.idMeal != action.payload) }
+    case 'LOAD_ITEM':
+      return { ...state, meals: action.payload }
     case 'RESET_ITEM':
-      return {...state,meals:[]}
+      return { ...state, meals: [] }
   }
 }
 
 const Body = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  
+
   // const [data,setData] = useState([]);
-   console.log("Body Rendered")
-   const [refresh,setRefresh] = useState(false);
-  const [searchItem,setSearchItem] = useState();
+  console.log("Body Rendered")
+  const [refresh, setRefresh] = useState(false);
+  const [searchItem, setSearchItem] = useState();
+
   
 
-   // https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert
+  // https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert
 
-  //  const fetchMeals = async () => {
-  //   console.log("Fetching Meals from API")
-  //   fetch("https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert")
-  //   .then(res=>res.json()).then(data=>setData(data.meals))
-  //  }
+   const fetchMeals = async () => {
+    fetch("https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert")
+    .then(res=>res.json()).then(data=>dispatch({type:'LOAD_ITEM',payload:data.meals}))
+   }
 
-  //  useEffect(()=>{
-  //     fetchMeals();
-  //   },[refresh])
+   useEffect(()=>{
+      fetchMeals();
+    },[])
 
-  const removeItem = (id)=>{
-    dispatch({type:'REMOVE_ITEM',payload:id})
+  const removeItem = (id) => {
+    dispatch({ type: 'REMOVE_ITEM', payload: id })
   }
-    
+
   return (
     <div>
-    <button className='btn btn-danger' onClick={()=>dispatch({type:'RESET_ITEM'})}>Reset Data</button> 
-    <button className='btn btn-primary' onClick={()=>dispatch({type:'RELOAD_ITEM'})}>Reload Data</button> 
-    <div><input type="text" onChange={(e)=>setSearchItem(e.target.value)}/>
-    <button className='btn btn-dark' onClick={()=>removeItem(searchItem)}>Remove Meal</button>
-    </div>
-   
-    {state.meals.length===0 && <Shimmer/>}
-    <MealsContainer meals={state.meals}/>
+    
+      <button className='btn btn-danger' onClick={() => dispatch({ type: 'RESET_ITEM' })}>Reset Data</button>
+      <button className='btn btn-primary' onClick={() => fetchMeals()}>Reload Data</button>
+      {/* <div><input type="text" onChange={(e) => setSearchItem(e.target.value)} />
+        <button className='btn btn-dark' onClick={() => removeItem(searchItem)}>Remove Meal</button>
+      </div> */}
+
+      {state.meals.length === 0 && <Shimmer />}
+      <MealsContext.Provider value={{meals:meals,removeItem}}>
+        <MealsContainer meals={state.meals} />
+      </MealsContext.Provider>
     </div>
   )
 }

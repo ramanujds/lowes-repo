@@ -1,17 +1,12 @@
 import React from 'react'
 import MealsCard from './MealsCard'
 
-const MealsContainer = ({ meals }) => {
+const MealsContainer = ({ meals,removeItem }) => {
   return (
     <div className='row'>
-      {meals.map(meal =>
-        <>
-          {meal.strMeal == 'Apam balik' ? <></> : <MealsCard meal={meal} />}
-        </>
+      {meals.map(meal => <MealsCard meal={meal}/>
       )}
     </div>
-
-
 
   )
 
