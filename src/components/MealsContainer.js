@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import MealsCard from './MealsCard'
+import { MealsContext } from '../utils/MealsContext';
 
-const MealsContainer = ({ meals,removeItem }) => {
+const MealsContainer = () => {
+  const {meals} = useContext(MealsContext);
   return (
     <div className='row'>
       {meals.map(meal => <MealsCard meal={meal}/>
