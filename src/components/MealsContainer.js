@@ -1,7 +1,7 @@
 import React from 'react'
 import MealsCard from './MealsCard'
 
-const MealsContainer = ({ meals, updateMeals }) => {
+const MealsContainer = ({ meals }) => {
   return (
     <div className='row'>
       {meals.map(meal =>
