@@ -161,3 +161,60 @@ In this example:
 4. Finally, we wrap our `UserProfile` with the `UserProvider` in the `App` component to make the user context available to it.
 
 Now, any component within the `UserProvider` will have access to the `user` information and the `updateUser` function to update that information.
+
+
+Example 3:
+
+```javascript
+
+import React, { useReducer, useEffect } from 'react';
+
+// Define your reducer function
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'FETCH_SUCCESS':
+      return { ...state, data: action.payload, loading: false };
+    case 'FETCH_ERROR':
+      return { ...state, error: action.payload, loading: false };
+    default:
+      return state;
+  }
+};
+
+const initialState = {
+  data: null,
+  loading: true,
+  error: null,
+};
+
+// Function to fetch data
+const fetchData = async (dispatch) => {
+  try {
+    const response = await yourApiCall(); // Replace with your actual API call
+    dispatch({ type: 'FETCH_SUCCESS', payload: response.data });
+  } catch (error) {
+    dispatch({ type: 'FETCH_ERROR', payload: error.message });
+  }
+};
+
+const YourComponent = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    fetchData(dispatch);
+  }, []); // The empty dependency array ensures the effect runs only once on mount
+
+  return (
+    <div>
+      {state.loading && <p>Loading...</p>}
+      {state.error && <p>Error: {state.error}</p>}
+      {state.data && <p>Data: {state.data}</p>}
+    </div>
+  );
+};
+
+export default YourComponent;
+
+```
+
+
