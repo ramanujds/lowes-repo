@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useFetchMeals = () => {
 
@@ -9,7 +9,9 @@ export const useFetchMeals = () => {
          const response = await data.json();
             setMeals(response.meals);
        }
-    fetchMeals();
+    useEffect(()=>{
+         fetchMeals();
+      },[])
 
     return meals;
 

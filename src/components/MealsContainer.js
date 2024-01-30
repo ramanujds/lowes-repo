@@ -6,7 +6,7 @@ const MealsContainer = () => {
   const {meals} = useContext(MealsContext);
   return (
     <div className='row'>
-      {meals.map(meal => <MealsCard meal={meal}/>
+      {meals.map(meal => <MealsCard meal={meal} key={meal.idMeal}/>
       )}
     </div>
 

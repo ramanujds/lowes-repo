@@ -23,6 +23,7 @@ const reducer = (state, action) => {
 
 const Body = () => {
 
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const meals = useFetchMeals();
