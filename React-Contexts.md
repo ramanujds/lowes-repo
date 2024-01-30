@@ -1,4 +1,46 @@
+
+
+
 `useContext` is a React Hook that allows you to subscribe to React context without introducing nesting. It's particularly useful when you want to access the values from a context in a functional component without having to use a `Consumer` component.
+
+
+## Steps
+
+
+Step 1 : Create Context
+
+```javascript
+
+const MealsContext = createContext(
+    {
+        meals: []
+    }
+);
+
+```
+
+Step 2: Provide the context
+
+```javascript
+
+ <MealsContext.Provider value={{meals:meals,removeItem}}>
+        <MealsContainer meals={state.meals} />
+ </MealsContext.Provider>
+
+```
+Step 3: use the context
+
+```javascript
+
+const {meals,removeItem} = useContext(MealsContext);
+
+
+```
+
+
+
+
+
 ### Example 1
 
 ```jsx
